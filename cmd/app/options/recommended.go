@@ -82,6 +82,7 @@ func NewRecommendedOptions(prefix string, codec runtime.Codec) *RecommendedOptio
 		Etcd:          options.NewEtcdOptions(storagebackend.NewDefaultConfig(prefix, codec)),
 		SecureServing: sso.WithLoopback(),
 		Authentication: kubeoptions.NewBuiltInAuthenticationOptions().
+			WithAnonymous().
 			WithClientCert().
 			WithServiceAccounts().
 			WithRequestHeader(),

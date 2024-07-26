@@ -18,6 +18,7 @@ import (
 	"expvar"
 
 	docs "github.com/KusionStack/karpor/api/openapispec"
+	authnhandler "github.com/KusionStack/karpor/pkg/core/handler/authn"
 	clusterhandler "github.com/KusionStack/karpor/pkg/core/handler/cluster"
 	detailhandler "github.com/KusionStack/karpor/pkg/core/handler/detail"
 	endpointhandler "github.com/KusionStack/karpor/pkg/core/handler/endpoint"
@@ -105,8 +106,11 @@ func NewCoreRoute(
 	// Endpoint to list all available endpoints in the router.
 	router.Get("/endpoints", endpointhandler.Endpoints(router))
 
-	// Endpoint to list all available endpoints in the router.
+	// Expose
 	router.Get("/server-configs", expvar.Handler().ServeHTTP)
+
+	// Determine whether the user's token can pass authentication.
+	router.Get("/authn", authnhandler.Get())
 
 	return router, nil
 }
